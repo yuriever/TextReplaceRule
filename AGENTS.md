@@ -1,29 +1,37 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
+## Structure
 
-This repository contains a TypeScript VS Code extension. Core extension entry points live in `src/extension.ts`, while rewrite and configuration logic lives in `src/editProvider.ts`. Integration tests are under `src/test/`, with `src/test/runTest.ts` launching the VS Code test host and `src/test/suite/` holding Mocha test cases. Built JavaScript and source maps are emitted to `out/`. Static extension assets live in `images/`, and contributor-facing notes are kept in `dev/`.
+This is a TypeScript VS Code extension.
 
-## Build, Test, and Development Commands
+* `src/extension.ts`: activation and command registration.
+* `src/editProvider.ts`: config loading, rewrite logic, and edit generation.
+* `src/test/`: VS Code integration tests.
+* `dev/`: contributor notes and internal docs.
+* `out/`: compiled output.
 
-* `npm install`: install runtime and development dependencies from `package-lock.json`.
-* `npm run compile`: type-check and compile TypeScript with `tsc -p ./`.
-* `npm run watch`: run TypeScript in watch mode during extension development.
-* `npm test`: compile, download the VS Code test build if needed, and run the extension integration suite.
-* `npm run vscode:prepublish`: run the prepublish compile step used before packaging.
+## Commands
 
-## Coding Style & Naming Conventions
+* `npm install`: install dependencies from `package-lock.json`.
+* `npm run compile`: type-check and compile.
+* `npm run watch`: compile in watch mode.
+* `npm test`: compile and run integration tests.
+* `npm run vscode:prepublish`: prepublish compile step.
 
-Use TypeScript with strict compiler settings from `tsconfig.json`, including `noImplicitAny`, `noImplicitReturns`, and unused-symbol checks. Keep imports at the top, prefer explicit types for shared data shapes, and match existing single-quote string style. Source files currently use four-space indentation in production code; preserve nearby formatting when editing tests or legacy sections. Use camelCase for functions and variables, PascalCase for classes and type-like constructs, and kebab-case for contributed VS Code command identifiers such as `text-replace-rule.runRule`.
+## Tests
 
-## Testing Guidelines
+`src/test/runTest.ts` resolves the VS Code executable in this order:
 
-Tests use Mocha, Node `assert`, and `@vscode/test-electron`. Place new extension behavior tests in `src/test/suite/extension.test.ts` or a focused file loaded by `src/test/suite/index.ts`. Name tests by observable behavior, for example `runRule preserves CRLF line endings when replacements occur`. Run `npm test` before submitting changes that affect commands, config parsing, edit generation, or post-processing.
+1. `VSCODE_TEST_EXECUTABLE_PATH`
+2. `/Applications/Visual Studio Code.app`
+3. `@vscode/test-electron` managed binary in `.vscode-test/`
 
-## Commit & Pull Request Guidelines
+Add integration coverage under `src/test/suite/` for command behavior, config parsing, edit generation, and post-processing changes.
 
-Recent history follows Conventional Commit style, such as `feat(regexReplace): ...`, `docs: ...`, and `chore(release): ...`. Keep commit subjects imperative and scoped when useful. Pull requests should describe the behavior change, list verification commands, and link any related issue. Include screenshots only for user-visible VS Code UI changes.
+## Style
 
-## Security & Configuration Tips
+Follow the existing TypeScript style: strict checks, imports first, single quotes, camelCase values, PascalCase type-like names, and kebab-case VS Code command ids.
 
-The extension reads external JSON or JSONC config through `text-replace-rule.configPath`. Preserve support for absolute paths, workspace-relative paths, `~/`, and paths containing spaces. Avoid logging user config contents unless required for diagnostics.
+Keep `text-replace-rule.configPath` support for absolute paths, workspace-relative paths, `~/`, and paths containing spaces.
+
+Update `README.md` for user-facing behavior and `dev/` docs for workflow or structure changes.

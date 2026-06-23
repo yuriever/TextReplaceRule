@@ -15,6 +15,14 @@
 3. Run `npm test`.
 4. Update `README.md` or `CHANGELOG.md` if behavior changed.
 
+## Test host
+
+`npm test` launches VS Code through `@vscode/test-electron`.
+
+On macOS, the runner uses the installed VS Code executable from `/Applications/Visual Studio Code.app` when present.
+
+Set `VSCODE_TEST_EXECUTABLE_PATH` only when a different executable should be used. If no local executable is found, the test runner uses the managed `.vscode-test/` binary.
+
 For interactive debugging:
 
 * `npm run watch`
