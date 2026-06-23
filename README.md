@@ -9,22 +9,22 @@ TextReplaceRule runs configurable text rewrites in VS Code from an external JSON
 1. Create a config file.
 2. Set `"text-replace-rule.configPath"` in `settings.json`.
 3. Run one of these commands from the Command Palette:
-    - `TextReplaceRule: Run Rule...`
-    - `TextReplaceRule: Run Rule Pipeline...`
+    * `TextReplaceRule: Run Rule...`
+    * `TextReplaceRule: Run Rule Pipeline...`
 
 Notes:
 
-- `configPath` supports absolute paths, workspace-relative paths, `~/`, and paths with spaces.
-- JSONC comments and trailing commas are allowed.
-- Changing `configPath` is picked up automatically.
-- Editing the config file itself requires `Developer: Reload Window`.
+* `configPath` supports absolute paths, workspace-relative paths, `~/`, and paths with spaces.
+* JSONC comments and trailing commas are allowed.
+* Changing `configPath` is picked up automatically.
+* Editing the config file itself requires `Developer: Reload Window`.
 
 ## How A Run Works
 
-- One empty selection processes the whole document.
-- Non-empty selections are processed independently.
-- One command run becomes one editor edit.
-- CRLF line endings are preserved.
+* One empty selection processes the whole document.
+* Non-empty selections are processed independently.
+* One command run becomes one editor edit.
+* CRLF line endings are preserved.
 
 ## Config Shape
 
@@ -37,8 +37,8 @@ Notes:
 
 Optional metadata for rules and pipelines:
 
-- `name`
-- `description`
+* `name`
+* `description`
 
 ## `regexReplace`
 
@@ -52,18 +52,18 @@ Optional metadata for rules and pipelines:
 }
 ```
 
-- `find`: string or non-empty string array
-- `replace`: string or string array aligned with `find`; missing means delete the match
-- `flag`: string or string array aligned with `find`; missing defaults to `g`
-- `language`: optional array of VS Code language ids
-- `post`: optional array of post processors
+* `find`: string or non-empty string array
+* `replace`: string or string array aligned with `find`; missing means delete the match
+* `flag`: string or string array aligned with `find`; missing defaults to `g`
+* `language`: optional array of VS Code language ids
+* `post`: optional array of post processors
 
 Behavior:
 
-- Array `find` values run in order as one rule.
-- `post` runs once after the full rule finishes.
-- Replacement strings use normal JavaScript replacement tokens such as `$1`, `$&`, and `$$`.
-- Add `m` explicitly when `^` or `$` should match line boundaries.
+* Array `find` values run in order as one rule.
+* `post` runs once after the full rule finishes.
+* Replacement strings use normal JavaScript replacement tokens such as `$1`, `$&`, and `$$`.
+* Add `m` explicitly when `^` or `$` should match line boundaries.
 
 ## `literalMap`
 
@@ -77,15 +77,15 @@ Behavior:
 }
 ```
 
-- `map`: object from literal source text to literal replacement text
-- `language`: optional array of VS Code language ids
-- `post`: optional array of post processors
+* `map`: object from literal source text to literal replacement text
+* `language`: optional array of VS Code language ids
+* `post`: optional array of post processors
 
 Behavior:
 
-- Keys must be non-empty.
-- Keys cannot overlap by prefix. For example, `a` and `ab` together are rejected.
-- Values are inserted literally. `$1` and `$&` are not expanded.
+* Keys must be non-empty.
+* Keys cannot overlap by prefix. For example, `a` and `ab` together are rejected.
+* Values are inserted literally. `$1` and `$&` are not expanded.
 
 ## `rulePipelines`
 
@@ -95,23 +95,23 @@ Behavior:
 }
 ```
 
-- Listed rules run in order.
-- Missing rule references are rejected when the config loads.
-- Language-restricted rules are skipped when the active editor language does not match.
+* Listed rules run in order.
+* Missing rule references are rejected when the config loads.
+* Language-restricted rules are skipped when the active editor language does not match.
 
 ## Post Processors
 
 `post` is an array. Processors run in listed order.
 
-- `"expandTab"`: replace tabs with spaces using the active editor `tabSize`
-- `"removeBlankLine"`: remove blank and whitespace-only lines
-- `{ "type": "indentLine", "mode": "block" | "inline" | "auto" }`
+* `"expandTab"`: replace tabs with spaces using the active editor `tabSize`
+* `"removeBlankLine"`: remove blank and whitespace-only lines
+* `{ "type": "indentLine", "mode": "block" | "inline" | "auto" }`
 
 `indentLine` modes:
 
-- `block`: if everything before the selection start on that line is whitespace, later lines inherit that exact prefix
-- `inline`: later lines align to the selection start column; non-whitespace before the selection is treated as spaces
-- `auto`: use `block` for whitespace-only prefixes, otherwise use `inline`
+* `block`: if everything before the selection start on that line is whitespace, later lines inherit that exact prefix
+* `inline`: later lines align to the selection start column; non-whitespace before the selection is treated as spaces
+* `auto`: use `block` for whitespace-only prefixes, otherwise use `inline`
 
 Recommended order for multiline formatting:
 
