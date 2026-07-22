@@ -45,4 +45,5 @@ Update `README.md` for user-facing behavior and `dev/` docs for workflow or stru
     * Use `*` for unordered list markers.
     * Use four spaces for nested indentation.
     * In prose, do not hard-wrap sentences to fit a fixed width.
-    * For placeholders in commands, use angle/square brackets for required/optional arguments, such as `command <file> [--flag]`.
+    * Write math in LaTeX style: inline with `$...$` and display with `\begin{...}...\end{...}`.
+    * When documenting commands, use `<...>` for required arguments and `[...]` for optional ones.
