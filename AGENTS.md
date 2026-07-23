@@ -36,7 +36,7 @@ Keep `text-replace-rule.configPath` support for absolute paths, workspace-relati
 
 Update `README.md` for user-facing behavior and `dev/` docs for workflow or structure changes.
 
-## Convention
+## Repository convention
 
 * Naming
     * Prefer singular forms for section headings and directory names.
@@ -45,5 +45,5 @@ Update `README.md` for user-facing behavior and `dev/` docs for workflow or stru
     * Use `*` for unordered list markers.
     * Use four spaces for nested indentation.
     * In prose, do not hard-wrap sentences to fit a fixed width.
-    * Write math in LaTeX style: inline with `$...$` and display with `\begin{...}...\end{...}`.
-    * When documenting commands, use `<...>` for required arguments and `[...]` for optional ones.
+    * Write inline math with `$...$` and display with `\begin{...}...\end{...}`.
+    * When documenting commands, use `<...>` for required arguments and `[...]` for optional.
