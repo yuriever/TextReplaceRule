@@ -39,10 +39,4 @@ Update `README.md` for user-facing behavior and `dev/` docs for workflow or stru
 ## Convention
 
 * Naming
-    * Prefer singular forms for section headings and directory names.
-
-* Markdown
-    * Use `*` for unordered list markers.
-    * Use four spaces for nested indentation.
-    * In prose, do not hard-wrap sentences to fit a fixed width.
-    * When documenting commands, use `<...>` for required arguments and `[...]` for optional.
+    * Prefer singular forms for section headings, file and directory names.
