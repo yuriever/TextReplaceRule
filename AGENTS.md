@@ -10,7 +10,7 @@ This is a TypeScript VS Code extension.
 * `dev/`: contributor notes and internal docs.
 * `out/`: compiled output.
 
-## Commands
+## Command
 
 * `npm install`: install dependencies from `package-lock.json`.
 * `npm run compile`: type-check and compile.
@@ -18,7 +18,7 @@ This is a TypeScript VS Code extension.
 * `npm test`: compile and run integration tests.
 * `npm run vscode:prepublish`: prepublish compile step.
 
-## Tests
+## Test
 
 `src/test/runTest.ts` resolves the VS Code executable in this order:
 
