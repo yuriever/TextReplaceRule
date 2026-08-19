@@ -32,7 +32,9 @@ Add integration coverage under `src/test/suite/` for command behavior, config pa
 
 Follow the existing TypeScript style: strict checks, imports first, single quotes, camelCase values, PascalCase type-like names, and kebab-case VS Code command ids.
 
-Keep `text-replace-rule.configPath` support for absolute paths, workspace-relative paths, `~/`, and paths containing spaces.
+Keep `text-replace-rule.configPath` resource-aware and resource-scoped. Explicit absolute paths work directly. Ordinary relative paths, including paths with spaces, resolve from the workspace folder containing the active document; report a handled error when no containing folder exists. Do not expand `~/` or add other private path syntax.
+
+Changing the `configPath` setting must clear the external config cache automatically. Editing the external config file contents still requires `Developer: Reload Window`; do not add a watcher or polling.
 
 Update `README.md` for user-facing behavior and `dev/` docs for workflow or structure changes.
 

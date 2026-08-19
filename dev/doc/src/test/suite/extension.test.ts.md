@@ -6,6 +6,8 @@ Integration tests for the public extension behavior.
 
 * command registration
 * config loading from `text-replace-rule.configPath`
+* resource-aware folder-specific config paths and literal `~/` handling in a multi-root workspace
+* handled relative config-path errors for documents outside workspace folders
 * `runRule` and `runRulePipeline`
 * selection behavior
 * CRLF preservation

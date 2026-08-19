@@ -14,7 +14,10 @@ TextReplaceRule runs configurable text rewrites in VS Code from an external JSON
 
 Notes:
 
-* `configPath` supports absolute paths, workspace-relative paths, `~/`, and paths with spaces.
+* `configPath` supports explicit absolute paths and ordinary workspace-relative paths, including paths with spaces.
+* A relative `configPath` resolves from the workspace folder containing the active document. In a multi-root workspace, each folder can provide its own resource-scoped value.
+* A relative `configPath` cannot be used when the active document is outside every workspace folder.
+* `~/` is not expanded. Use an explicit absolute path for configuration stored outside the workspace.
 * JSONC comments and trailing commas are allowed.
 * Changing `configPath` is picked up automatically.
 * Editing the config file itself requires `Developer: Reload Window`.

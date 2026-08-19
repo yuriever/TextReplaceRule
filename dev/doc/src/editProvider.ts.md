@@ -4,7 +4,7 @@ Core engine for the extension.
 
 ## Responsibilities
 
-* load external config from `text-replace-rule.configPath`
+* load external config from the active document's resource-aware `text-replace-rule.configPath`
 * parse `rules` and `rulePipelines`
 * build quick pick items for rules and pipelines
 * resolve target ranges from the active editor
@@ -46,6 +46,9 @@ Core engine for the extension.
 ## Notes
 
 * External config is cached by resolved path after first successful load.
+* Absolute config paths are used directly.
+* Relative config paths resolve from the workspace folder containing the active document.
+* A relative config path without a containing workspace folder is rejected with a handled error.
 * External config file edits require a VS Code window reload.
 * Errors are surfaced through VS Code error messages.
 * This file owns behavior. `src/extension.ts` should stay thin.
