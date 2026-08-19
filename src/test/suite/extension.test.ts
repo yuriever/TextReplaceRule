@@ -524,6 +524,19 @@ suite('Extension Test Suite', () => {
 		assert.strictEqual(editor.document.getText(), 'baz');
 	});
 
+	test('runRule uses folder configPath values without expanding ~/ in a multi-root workspace', async () => {
+		const workspaceFolders = vscode.workspace.workspaceFolders;
+		assert.strictEqual(workspaceFolders?.length, 2);
+
+		for (const workspaceFolder of workspaceFolders ?? []) {
+			const editor = await openFileEditor(vscode.Uri.joinPath(workspaceFolder.uri, 'document.txt'));
+			editor.selection = new vscode.Selection(new vscode.Position(0, 0), new vscode.Position(0, 0));
+
+			await vscode.commands.executeCommand('text-replace-rule.runRule', { ruleName: 'Folder rule' });
+			assert.strictEqual(editor.document.getText(), workspaceFolder.name);
+		}
+	});
+
 	test('runRulePipeline loads external JSONC config from configPath', async () => {
 		const fixtureDir = path.join(os.tmpdir(), 'text replace rule test');
 		const fixturePath = path.join(fixtureDir, `config-${Date.now()}-${Math.random().toString(16).slice(2)}.jsonc`);
@@ -957,6 +970,23 @@ suite('Extension Test Suite', () => {
 		assert.strictEqual(editor.document.getText(), 'sample text');
 	});
 
+	test('runRule shows a handled error for a relative configPath outside a workspace folder', async () => {
+		await setTextReplaceRuleConfig('config.json');
+
+		const editor = await openEditor('sample text');
+		editor.selection = new vscode.Selection(new vscode.Position(0, 0), new vscode.Position(0, 0));
+
+		const errors = await captureErrorMessages(async () => {
+			await vscode.commands.executeCommand('text-replace-rule.runRule', { ruleName: 'Anything' });
+			await delay(25);
+		});
+
+		assert.deepStrictEqual(errors, [
+			'Error loading text-replace-rule.configPath: A relative configPath requires a workspace folder.'
+		]);
+		assert.strictEqual(editor.document.getText(), 'sample text');
+	});
+
 	test('runRule shows an error for invalid JSONC in configPath file', async () => {
 		const fixtureDir = path.join(os.tmpdir(), 'text replace rule test');
 		const fixturePath = path.join(fixtureDir, `invalid-${Date.now()}-${Math.random().toString(16).slice(2)}.jsonc`);
@@ -998,7 +1028,12 @@ suite('Extension Test Suite', () => {
 			name?: string;
 			displayName?: string;
 			activationEvents?: string[];
-			contributes?: { commands?: Array<{ command?: string }> };
+			contributes?: {
+				commands?: Array<{ command?: string }>;
+				configuration?: {
+					properties?: Record<string, { scope?: string }>;
+				};
+			};
 			devDependencies?: { [name: string]: string };
 			dependencies?: { [name: string]: string };
 		};
@@ -1018,6 +1053,10 @@ suite('Extension Test Suite', () => {
 		assert.strictEqual(manifest.contributes?.commands?.some((command) => command.command === 'text-replace-rule.runRule'), true);
 		assert.strictEqual(manifest.contributes?.commands?.some((command) => command.command === 'text-replace-rule.runRulePipeline'), true);
 		assert.strictEqual(manifest.contributes?.commands?.some((command) => command.command === 'replacerules.stringifyRegex'), false);
+		assert.strictEqual(
+			manifest.contributes?.configuration?.properties?.['text-replace-rule.configPath']?.scope,
+			'resource'
+		);
 	});
 });
 
@@ -1102,6 +1141,11 @@ async function withDocumentChangeSpy(document: vscode.TextDocument, run: () => P
 
 async function openEditor(content: string, language = 'plaintext'): Promise<vscode.TextEditor> {
 	const document = await vscode.workspace.openTextDocument({ content, language });
+	return vscode.window.showTextDocument(document);
+}
+
+async function openFileEditor(uri: vscode.Uri): Promise<vscode.TextEditor> {
+	const document = await vscode.workspace.openTextDocument(uri);
 	return vscode.window.showTextDocument(document);
 }
 

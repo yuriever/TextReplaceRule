@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
-import * as os from 'os';
 import * as path from 'path';
 import { parse as parseJsonc, ParseError, printParseErrorCode } from 'jsonc-parser';
 
@@ -254,7 +253,7 @@ export default class TextReplaceRuleEditProvider {
 
     constructor(textEditor: TextEditor) {
         this.textEditor = textEditor;
-        let config = vscode.workspace.getConfiguration("text-replace-rule");
+        let config = vscode.workspace.getConfiguration("text-replace-rule", textEditor.document.uri);
         let configPath = config.get<string>("configPath");
 
         if (configPath) {
@@ -868,20 +867,16 @@ const validateLiteralMapKeys = (ruleName: string, keys: string[]) => {
 }
 
 const resolveConfigPath = (configPath: string, documentUri: vscode.Uri) => {
-    let expandedPath = configPath.startsWith('~/')
-        ? path.join(os.homedir(), configPath.slice(2))
-        : configPath;
-
-    if (path.isAbsolute(expandedPath)) {
-        return expandedPath;
+    if (path.isAbsolute(configPath)) {
+        return configPath;
     }
 
     let workspaceFolder = vscode.workspace.getWorkspaceFolder(documentUri);
-    if (workspaceFolder) {
-        return path.resolve(workspaceFolder.uri.fsPath, expandedPath);
+    if (!workspaceFolder) {
+        throw new Error('A relative configPath requires a workspace folder.');
     }
 
-    return path.resolve(expandedPath);
+    return path.resolve(workspaceFolder.uri.fsPath, configPath);
 }
 
 function escapeRegExp(string: string) {
