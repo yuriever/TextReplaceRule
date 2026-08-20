@@ -42,3 +42,7 @@ Update `README.md` for user-facing behavior and `dev/` docs for workflow or stru
 
 * Naming
     * Prefer singular forms for section headings, file and directory names.
+
+* Python
+    * Manage dependencies with `uv`.
+    * Run commands with `uv run <command>`.
