@@ -54,6 +54,3 @@ Update `README.md` for user-facing behavior and `dev/` docs for workflow or stru
 
 * Wolfram
     * Prefer file-based execution with `WolframKernel -script <file.wl>`.
-
-* Lean
-    * Manage toolchains with `elan`.
