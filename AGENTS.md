@@ -40,12 +40,6 @@ Update `README.md` for user-facing behavior and `dev/` docs for workflow or stru
 
 ## Convention
 
-* Naming
-    * Prefer singular forms for section headings, file and directory names.
-
-* Chat output
-    * Surround display math blocks with blank lines for rendering compatibility.
-
 * LaTeX
     * Prefer `pdfLaTeX` with `-synctex=1 -output-directory=.aux`.
 
