@@ -1,8 +1,12 @@
-out
+# Dependency
 node_modules
-.directory
+
+# Editor configuration
 .vscode-test
-.DS_Store
+
+# Build output
 *.vsix
-/.obsidian/
-/.trash/
+out
+
+# Project artifact
+.directory
